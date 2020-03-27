@@ -97,7 +97,7 @@ public class RingBuffer<Item> {
 
     /**
      * Returns the first element from the buffer without removing it.
-     * @throws a RuntimeException if the buffer is empty.
+     * @throws RuntimeException if the buffer is empty.
      */
     public Item peek() {
         if (isEmpty()) {
