@@ -39,7 +39,7 @@ public class RingBuffer<Item> {
 	@SuppressWarnings("unchecked")
 	public void setCapacity(int newCapacity) throws IndexOutOfBoundsException {
 		if (newCapacity < a.length) {
-			throw new IndexOutOfBoundsException("New capacity is to less");
+			throw new IndexOutOfBoundsException("New capacity is too low.");
 		}
 		Item[] aOld = a;
 		a = (Item[]) new Object[newCapacity];
