@@ -38,16 +38,27 @@ public class RingBuffer<Item> {
 	 */
 	@SuppressWarnings("unchecked")
 	public void setCapacity(int newCapacity) throws IndexOutOfBoundsException {
-		if (newCapacity < a.length) {
+		if (newCapacity < size()) {
 			throw new IndexOutOfBoundsException("New capacity is too low.");
 		}
+
+		boolean isFull = isFull();
+
 		Item[] aOld = a;
 		a = (Item[]) new Object[newCapacity];
-		last = 0;
-		for (int i = 0; i < aOld.length; i++) {
-			a[i] = aOld[i];
-			last++;
+
+		if (isFull) {
+			last = 0;
+			for (int i = 0; i < aOld.length; i++) {
+				a[i] = aOld[i];
+				last++;
+			}
+		} else {
+			for (int i = 0; i < N; i++) {
+				a[i] = aOld[i];
+			}
 		}
+
 	}
 
 	/**
