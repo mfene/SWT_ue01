@@ -9,15 +9,16 @@ public class RingBufferTest {
 
 	private static final String ELEM = "elem";
 	private static final String[] ELEMS = { "e1", "e2", "e3", "e4", "e5", "e6" };
+	private static final int TESTCAPACITY = 5;
 
 	@BeforeEach
 	public void beforeEach() {
-		rb = new RingBuffer<>(5);
+		rb = new RingBuffer<>(TESTCAPACITY);
 	}
 
 	@Test
 	public void testCapacity() {
-		assertEquals(5, rb.capacity());
+		assertEquals(TESTCAPACITY, rb.capacity());
 	}
 
 	@Test
@@ -57,7 +58,7 @@ public class RingBufferTest {
 	@Test
 	public void testIsFull() {
 		assertFalse(rb.isFull());
-		for (int i = 0; i < ELEMS.length - 1; i++)
+		for (int i = 0; i < TESTCAPACITY; i++)
 			rb.enqueue(ELEMS[i]);
 		assertTrue(rb.isFull());
 	}
@@ -69,6 +70,57 @@ public class RingBufferTest {
 		assertFalse(rb.isEmpty());
 	}
 
+	@Test
+	public void testPartialFillAndEmpty() {
+		String[] arrayIn = { "e1", "e2", "e3" };
+		String[] arrayOutExpected = { "e1", "e2", "e3"};
+
+		assertTrue(rb.isEmpty());
+		assertFalse(rb.isFull());
+		assertEquals(TESTCAPACITY, rb.capacity());
+		assertEquals(0, rb.size());
+
+		for(String elem : arrayIn) rb.enqueue(elem);
+
+		assertFalse(rb.isEmpty());
+		assertFalse(rb.isFull());
+		assertEquals(TESTCAPACITY, rb.capacity());
+		assertEquals(arrayIn.length, rb.size());
+
+		for(String elem : arrayOutExpected) assertEquals(elem, rb.dequeue());
+
+		assertTrue(rb.isEmpty());
+		assertFalse(rb.isFull());
+		assertEquals(TESTCAPACITY, rb.capacity());
+		assertEquals(0, rb.size());
+	}
+
+	@Test
+	public void testOverfillAndEmpty() {
+
+		String[] arrayIn = { "e1", "e2", "e3", "e4", "e5", "e6" };
+		String[] arrayOutExpected = { "e2", "e3", "e4", "e5", "e6" };
+
+		assertTrue(rb.isEmpty());
+		assertFalse(rb.isFull());
+		assertEquals(TESTCAPACITY, rb.capacity());
+		assertEquals(0, rb.size());
+
+		for(String elem : arrayIn) rb.enqueue(elem);
+
+		assertFalse(rb.isEmpty());
+		assertTrue(rb.isFull());
+		assertEquals(TESTCAPACITY, rb.capacity());
+		assertEquals(arrayOutExpected.length, rb.size());
+
+		for(String elem : arrayOutExpected) assertEquals(elem, rb.dequeue());
+
+		assertTrue(rb.isEmpty());
+		assertFalse(rb.isFull());
+		assertEquals(TESTCAPACITY, rb.capacity());
+		assertEquals(0, rb.size());
+	}
+
 	/**
 	 * start of tests for task 2
 	 */
@@ -78,6 +130,33 @@ public class RingBufferTest {
 		rb.setCapacity(6);
 		assertEquals(6, rb.capacity());
 	}
+
+	@Test
+	public void testSetZeroCapacity() {
+		assertThrows(IndexOutOfBoundsException.class, () -> rb.setCapacity(0));
+	}
+
+	@Test
+	public void testSetNegativeCapacity() {
+		assertThrows(IndexOutOfBoundsException.class, () -> rb.setCapacity(-1));
+	}
+
+	@Test
+	public void testSetCapacityHigherThenLower() {
+		rb.setCapacity(TESTCAPACITY+1);
+		assertEquals(TESTCAPACITY+1, rb.capacity());
+		rb.setCapacity(TESTCAPACITY-1);
+		assertEquals(TESTCAPACITY-1, rb.capacity());
+	}
+
+	@Test
+	public void testSetCapacityLowerThenHigher() {
+		rb.setCapacity(TESTCAPACITY-1);
+		assertEquals(TESTCAPACITY-1, rb.capacity());
+		rb.setCapacity(TESTCAPACITY+1);
+		assertEquals(TESTCAPACITY+1, rb.capacity());
+	}
+
 
 	@Test
 	public void testSetCapThenFillAndEmpty() {
