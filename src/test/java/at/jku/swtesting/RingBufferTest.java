@@ -80,6 +80,22 @@ public class RingBufferTest {
 	}
 
 	@Test
+	public void testSetCapThenFillAndEmpty() {
+		rb.setCapacity(ELEMS.length);
+		assertTrue(rb.isEmpty());
+
+		for(String elem : ELEMS) rb.enqueue(elem);
+
+		assertFalse(rb.isEmpty());
+		assertTrue(rb.isFull());
+
+		for (String elem : ELEMS) assertEquals(elem, rb.dequeue());
+
+		assertTrue(rb.isEmpty());
+		assertFalse(rb.isFull());
+	}
+
+	@Test
 	public void testSetCapacityEnqueueDequeue() {
 		for (String elem : ELEMS)
 			rb.enqueue(elem);
