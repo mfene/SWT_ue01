@@ -162,7 +162,6 @@ public class RingBufferTest {
 		assertEquals(TESTCAPACITY + 1, rb.capacity());
 	}
 
-	@Disabled
 	@Test
 	public void testSetCapThenFillAndEmpty() {
 		rb.setCapacity(ELEMS.length);
@@ -174,7 +173,7 @@ public class RingBufferTest {
 		assertFalse(rb.isEmpty());
 		assertTrue(rb.isFull());
 
-		assertEquals("e1", rb.dequeue());
+		assertEquals("e1", rb.peek());
 
 		for (String elem : ELEMS)
 			assertEquals(elem, rb.dequeue());
