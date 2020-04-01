@@ -91,6 +91,8 @@ public class RingBufferTest {
 		for (String elem : arrayOutExpected)
 			assertEquals(elem, rb.dequeue());
 
+		assertThrows(RuntimeException.class, () -> rb.dequeue());
+
 		assertTrue(rb.isEmpty());
 		assertFalse(rb.isFull());
 		assertEquals(TESTCAPACITY, rb.capacity());
@@ -118,6 +120,8 @@ public class RingBufferTest {
 
 		for (String elem : arrayOutExpected)
 			assertEquals(elem, rb.dequeue());
+
+		assertThrows(RuntimeException.class, () -> rb.dequeue());
 
 		assertTrue(rb.isEmpty());
 		assertFalse(rb.isFull());
@@ -172,6 +176,7 @@ public class RingBufferTest {
 
 		assertFalse(rb.isEmpty());
 		assertTrue(rb.isFull());
+		assertEquals(ELEMS.length, rb.size());
 
 		assertEquals("e1", rb.peek());
 
@@ -180,6 +185,24 @@ public class RingBufferTest {
 
 		assertTrue(rb.isEmpty());
 		assertFalse(rb.isFull());
+		assertEquals(0, rb.size());
+	}
+
+	@Test
+	public void testSetCapZeroThenAttemptInsertAndEmpty(){
+		rb.setCapacity(0);
+		assertThrows(IndexOutOfBoundsException.class, () -> rb.enqueue(ELEM));
+		assertThrows(RuntimeException.class, () -> rb.dequeue());
+	}
+
+	@Test
+	public void testSetCapFillThenReduceCap() {
+		rb.enqueue(ELEM);
+		rb.enqueue(ELEM);
+		rb.enqueue(ELEM);
+		rb.setCapacity(3);
+		assertThrows(IndexOutOfBoundsException.class, () -> rb.setCapacity(2));
+		rb.setCapacity(TESTCAPACITY);
 	}
 
 	@Test
