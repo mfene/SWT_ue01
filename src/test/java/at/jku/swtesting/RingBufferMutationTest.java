@@ -5,7 +5,7 @@ import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-public class RingBufferTest {
+public class RingBufferMutationTest {
 
     private static final String ELEM = "elem";
     private static final String[] ELEMS = {"e1", "e2", "e3", "e4", "e5", "e6"};
@@ -26,6 +26,15 @@ public class RingBufferTest {
     public void testConstructorIllegalArgException() {
         assertThrows(IllegalArgumentException.class, () -> new RingBuffer<>(0));
     }
+
+    @Test
+    public void testCapacityMutations() {
+        assertThrows(IllegalArgumentException.class, () -> new RingBuffer<>(-1));
+        assertThrows(IllegalArgumentException.class, () -> new RingBuffer<>(0));
+        assertDoesNotThrow(() -> new RingBuffer<>(1));
+        assertDoesNotThrow(() -> new RingBuffer<>(2));
+    }
+
 
     @Test
     public void testSizeEnqueueDequeue() {
