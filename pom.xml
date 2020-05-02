@@ -7,7 +7,7 @@
 	<groupId>at.jku.swtesting</groupId>
 	<artifactId>assignment02</artifactId>
 	<version>3.0.0-SNAPSHOT</version>
-	<packaging>jar</packaging> 
+	<packaging>jar</packaging>
 
 	<name>RingBufferExample</name>
 	<description>Exercise.</description>
@@ -47,7 +47,19 @@
 				<artifactId>maven-surefire-plugin</artifactId>
 				<version>3.0.0-M4</version>
 			</plugin>
-			
+				  <!-- needed for also exporting test and model classes -->
+			      <plugin>
+        			<groupId>org.apache.maven.plugins</groupId>
+        			<artifactId>maven-jar-plugin</artifactId>
+        			<version>3.2.0</version>
+        			<executions>
+          				<execution>
+            				<goals>
+              					<goal>test-jar</goal>
+            				</goals>
+          				</execution>
+        			</executions>
+   				</plugin>
 			<plugin>
 				<groupId>org.jacoco</groupId>
 				<artifactId>jacoco-maven-plugin</artifactId>

@@ -23,7 +23,8 @@ public class RingBufferSimpleModel implements FsmModel {
 			return "FULL";
 		} else if ((size > 0) && (size < CAPACITY)) {
 			return "FILLED";
-		} else return "ERROR_UNEXPECTED_MODEL_STATE";
+		} else
+			return "ERROR_UNEXPECTED_MODEL_STATE";
 	}
 
 	public void reset(boolean testing) {
@@ -37,7 +38,7 @@ public class RingBufferSimpleModel implements FsmModel {
 	@Action
 	public void enqueue() {
 		size++;
-	}	
+	}
 
 	public boolean dequeueGuard() {
 		return size > 0;
@@ -47,20 +48,19 @@ public class RingBufferSimpleModel implements FsmModel {
 	public void dequeue() {
 		size--;
 	}
-	
 
 	public static void main(String[] args) {
 		Tester tester = new RandomTester(new RingBufferSimpleModel());
-		
+
 		tester.buildGraph();
 		tester.addListener(new VerboseListener());
 		tester.addListener(new StopOnFailureListener());
-        tester.addCoverageMetric(new ActionCoverage());
-        tester.addCoverageMetric(new StateCoverage());
+		tester.addCoverageMetric(new ActionCoverage());
+		tester.addCoverageMetric(new StateCoverage());
 		tester.addCoverageMetric(new TransitionCoverage());
-		
+
 		tester.generate(10);
-		
+
 		tester.printCoverage();
 	}
 
