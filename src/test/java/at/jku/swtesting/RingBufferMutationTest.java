@@ -18,6 +18,14 @@ public class RingBufferMutationTest {
     }
 
     @Test
+    public void testCapacityMutations() {
+        assertThrows(IllegalArgumentException.class, () -> new RingBuffer<>(-1));
+        assertThrows(IllegalArgumentException.class, () -> new RingBuffer<>(0));
+        assertDoesNotThrow(() -> new RingBuffer<>(1));
+        assertDoesNotThrow(() -> new RingBuffer<>(2));
+    }
+
+    @Test
     public void testCapacity() {
         assertEquals(TESTCAPACITY, rb.capacity());
     }
@@ -28,15 +36,6 @@ public class RingBufferMutationTest {
     }
 
     @Test
-    public void testCapacityMutations() {
-        assertThrows(IllegalArgumentException.class, () -> new RingBuffer<>(-1));
-        assertThrows(IllegalArgumentException.class, () -> new RingBuffer<>(0));
-        assertDoesNotThrow(() -> new RingBuffer<>(1));
-        assertDoesNotThrow(() -> new RingBuffer<>(2));
-    }
-
-
-    @Test
     public void testSizeEnqueueDequeue() {
         assertEquals(0, rb.size());
         rb.enqueue(ELEM);
@@ -44,7 +43,6 @@ public class RingBufferMutationTest {
         assertEquals(ELEM, rb.dequeue());
         assertEquals(0, rb.size());
     }
-
 
     @Test
     public void testDequeueRuntimeException() {

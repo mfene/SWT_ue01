@@ -1,3 +1,4 @@
+/*
 package at.jku.swtesting;
 
 import org.junit.jupiter.api.BeforeEach;
@@ -131,9 +132,11 @@ public class RingBufferTest {
         assertEquals(0, rb.size());
     }
 
-    /**
-     * start of tests for task 2
-     */
+    */
+/**
+ * start of tests for task 2
+ *//*
+
 
     @Test
     public void testSetCapacity() {
@@ -241,3 +244,4 @@ public class RingBufferTest {
     }
 
 }
+*/

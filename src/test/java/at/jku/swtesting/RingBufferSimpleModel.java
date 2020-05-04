@@ -1,15 +1,9 @@
 package at.jku.swtesting;
 
-import nz.ac.waikato.modeljunit.Action;
-import nz.ac.waikato.modeljunit.FsmModel;
-import nz.ac.waikato.modeljunit.RandomTester;
-import nz.ac.waikato.modeljunit.StopOnFailureListener;
-import nz.ac.waikato.modeljunit.Tester;
-import nz.ac.waikato.modeljunit.VerboseListener;
-import nz.ac.waikato.modeljunit.coverage.CoverageMetric;
+import nz.ac.waikato.modeljunit.*;
+import nz.ac.waikato.modeljunit.coverage.ActionCoverage;
 import nz.ac.waikato.modeljunit.coverage.StateCoverage;
 import nz.ac.waikato.modeljunit.coverage.TransitionCoverage;
-import nz.ac.waikato.modeljunit.coverage.ActionCoverage;
 
 public class RingBufferSimpleModel implements FsmModel {
 
@@ -19,7 +13,7 @@ public class RingBufferSimpleModel implements FsmModel {
 	public Object getState() {
 		if (size == 0) {
 			return "EMPTY";
-		} else if (size == CAPACITY) {
+		} else if ((size > 0) && (size == CAPACITY)) {
 			return "FULL";
 		} else if ((size > 0) && (size < CAPACITY)) {
 			return "FILLED";
@@ -47,6 +41,14 @@ public class RingBufferSimpleModel implements FsmModel {
 	@Action
 	public void dequeue() {
 		size--;
+	}
+
+	@Action
+	public void peek() {
+	}
+
+	public boolean peekGuard() {
+		return size > 0;
 	}
 
 	public static void main(String[] args) {
