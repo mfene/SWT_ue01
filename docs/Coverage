@@ -1,0 +1,4 @@
+With Adapter, length=100:
+    action coverage: 5/5
+    state coverage: 4/4
+    transition coverage: 11/11
