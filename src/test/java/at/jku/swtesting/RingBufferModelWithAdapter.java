@@ -7,9 +7,14 @@ import static org.junit.jupiter.api.Assertions.assertThrows;
 
 public class RingBufferModelWithAdapter extends RingBufferSimpleModel {
 
-    private final RingBuffer<String> buffer = new RingBuffer<>(CAPACITY);
-    private int count = 0;
+    private RingBuffer<String> buffer = new RingBuffer<>(CAPACITY);
     private static final String insert = "Test";
+
+    @Override
+    public void reset(boolean testing) {
+        super.reset(testing);
+        this.buffer = new RingBuffer<>(CAPACITY);
+    }
 
     @Override
     @Action
