@@ -7,7 +7,6 @@ public class RingBufferSimpleModel implements FsmModel {
 
 	protected static final int CAPACITY = 3;
 	protected int size;
-	protected boolean empty;
 
 	public Object getState() {
 		if (size == 0) {
@@ -52,7 +51,6 @@ public class RingBufferSimpleModel implements FsmModel {
 
 	@Action
 	public void dequeueFromEmptyBuffer() {
-		size--;
 	}
 
 	public boolean dequeueFromEmptyBufferGuard() {
